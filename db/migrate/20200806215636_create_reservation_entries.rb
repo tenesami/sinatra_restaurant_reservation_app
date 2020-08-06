@@ -1,6 +1,8 @@
 class CreateReservationEntries < ActiveRecord::Migration
   def change
     create_table :reservation_entries do |t|
+      t.string :restaurant_name
+      t.integer :user_id
 
       t.timestamps null: false
     end
