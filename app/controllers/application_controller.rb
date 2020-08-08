@@ -10,14 +10,11 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    redirect_if_logged_in
-    erb :welcome
-    #redirect '/login'
-  end
-
-
-  get '/reservation_enteris' do
-    "Hello World"
+    if logged_in?
+      redirect "/users/#{current_user.id}"
+    else
+      erb :welcome
+    end
   end
 
   helpers do
