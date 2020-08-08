@@ -1,6 +1,6 @@
 class ReservationEntriesController < ApplicationController
     
-    get '/reservation_entries' do
+    get '/reservation_entries/new' do
         erb :'/reservation_entries/new'
     end
    
