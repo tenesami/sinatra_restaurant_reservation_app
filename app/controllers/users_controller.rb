@@ -15,20 +15,43 @@ class UsersController < ApplicationController
         #Authenticate the user 
         if @user.authenticate(params[:password])
             #create a sessions 
-           sessions[:user_id] = @user.id #actually log user in
-           puts session
-           redirect "user/#{user.id}"
+           session[:user_id] = @user.id #actually log user in
+           puts sessions
+           redirect "users/#{@user.id}"
         else
 
         end
 
     end  
 
+    #render the sign up form 
     get '/signup' do
+        #erb (render) a view
+        erb :signup
+
     end
 
-    get '/user/:id' do 
-       "this will be the user show route " 
+    post '/users' do
+        if params[:user_name] != "" && params[:email] != "" && params[:password] != ""
+            @user = User.create(params)
+            session[:user_id] = @user_id #login the user
+            redirect "/users/#{@user.id}"
+        else
+            #it would be better telling user what is wrong 
+            redirect '/signup'
+        end
+        #{"user_name"=>"nes", "email"=>"nes@", "password"=>"tes"}
+
+        
+
+    end
+
+    get '/users/:id' do 
+       #"this will be the user show route "
+       
+       @user = User.find_by(id: params[:id]) 
+       #binding.pry
+       erb :'/users/show'
     end
 
 end
