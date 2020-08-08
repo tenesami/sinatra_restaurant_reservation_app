@@ -6,6 +6,6 @@ end
 
 #send PATCH and DELETE requests
 use Rack::MethodOverride
-use ReservationEnterisController
+use ReservationEntriesController 
 use UsersController
 run ApplicationController
