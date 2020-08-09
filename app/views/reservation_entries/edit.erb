@@ -1,9 +1,11 @@
-EDIT PAGE FOR A RESTAURANT PAGE
+EDIT FORM FOR A RESTAURANT ENTRY
 
-<form class="" action="/reservation_entries" method="post">
+<form class="" action="/reservation_entries/<%= @reservation_entry.id %>" method="post">
+<input type="hidden" name="_method" value="patch">
   <label for="restaurant_name">Restaurant Name:</label>
-  <input type="text" name="restaurant_name" value="">
+  <textarea name="restaurant_name" style="width:auto; height:auto;"> 
+  <%= @reservation_entry.restaurant_name %></textarea>
 
-  <input type="submit" name="" value="Create Entry">
+  <input type="submit" name="" value="Edit Entry">
 </form>
 
