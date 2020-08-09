@@ -4,9 +4,8 @@ class ReservationEntriesController < ApplicationController
         erb :'/reservation_entries/new'
     end
    
-    post '/reservation_entries/new' do
+    post '/reservation_entries' do
         redirect_if_not_logged_in
-
         if params[:restaurant_name] != ""
             @reservation_entry = ReservationEntry.create(
                 restaurant_name: params[:restaurant_name], 
@@ -17,6 +16,7 @@ class ReservationEntriesController < ApplicationController
             redirect '/reservation_entries/new'
         end
     end
+    
     get '/reservation_entries/:id' do
         @reservation_entry = ReservationEntry.find(params[:id])
         erb :'/reservation_entries/show'
