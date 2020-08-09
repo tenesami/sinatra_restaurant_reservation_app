@@ -22,12 +22,45 @@ class ReservationEntriesController < ApplicationController
     end
 
     get '/reservation_entries/:id' do
-        @reservation_entry = ReservationEntry.find(params[:id])
+        set_reservation_entry
         erb :'/reservation_entries/show'
     end
 
 
     get '/reservation_entries/:id/edit' do
-        erb :'/reservation_entries/edit'
-      end
+        set_reservation_entry
+        if logged_in?
+            if @reservation_entry == current_user
+                erb :'/reservation_entries/edit'
+            else
+                redirect "/users/#{current_user.id}"
+            end
+        else
+            redirect '/'
+        end
+    end
+
+    
+    patch '/reservation_entries/:id' do
+        set_reservation_entry
+        if logged_in?
+            if @reservation_entry == current_user   
+            
+            @reservation_entry.update(restaurant_name: params[:restaurant_name])
+            
+            redirect "/reservation_entries/#{@reservation_entry.id}"
+            else
+                redirect "/users/#{current_user.id}"
+            end
+        else
+            redirect '/'
+        end
+    end
+
+    private 
+    #helper method
+    def set_reservation_entry
+        @reservation_entry = ReservationEntry.find(params[:id])
+    end
+
 end
