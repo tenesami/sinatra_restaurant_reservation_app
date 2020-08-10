@@ -1,5 +1,11 @@
 class ReservationEntriesController < ApplicationController
     
+
+    get '/reservation_entries' do
+        @reservation_entries = ReservationEntry.all
+        erb :'/reservation_entries/index'
+      end
+
     get '/reservation_entries/new' do
         erb :'/reservation_entries/new'
     end
@@ -30,7 +36,7 @@ class ReservationEntriesController < ApplicationController
     get '/reservation_entries/:id/edit' do
         set_reservation_entry
         if logged_in?
-            if @reservation_entry == current_user
+            if authorized_to_edit?(@reservation_entry)
                 erb :'/reservation_entries/edit'
             else
                 redirect "/users/#{current_user.id}"
@@ -44,7 +50,7 @@ class ReservationEntriesController < ApplicationController
     patch '/reservation_entries/:id' do
         set_reservation_entry
         if logged_in?
-            if @reservation_entry == current_user   
+            if authorized_to_edit?(@reservation_entry)   
             
             @reservation_entry.update(restaurant_name: params[:restaurant_name])
             

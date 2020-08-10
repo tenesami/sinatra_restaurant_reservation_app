@@ -27,6 +27,7 @@ class ApplicationController < Sinatra::Base
       @current_user ||= User.find_by(id: session[:user_id])
     end
     
+    #helper method 
     def authorized_to_edit?(reservation_entry)
       reservation_entry.user == current_user
     end
