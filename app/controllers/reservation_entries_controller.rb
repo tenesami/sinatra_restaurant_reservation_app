@@ -50,7 +50,7 @@ class ReservationEntriesController < ApplicationController
     patch '/reservation_entries/:id' do
         set_reservation_entry
         if logged_in?
-            if authorized_to_edit?(@reservation_entry)   
+            if authorized_to_edit?(@reservation_entry) && params[:restaurant_name] != ""  
             
             @reservation_entry.update(restaurant_name: params[:restaurant_name])
             
@@ -63,10 +63,20 @@ class ReservationEntriesController < ApplicationController
         end
     end
 
+    delete '/reservation_entries/:id' do
+        set_reservation_entry
+        if authorized_to_edit?(@reservation_entry)
+            @reservation_entry.destroy
+            redirect '/reservation_entries'
+         else
+            redirect '/reservation_entries'
+        end
+    end
     private 
     #helper method
     def set_reservation_entry
         @reservation_entry = ReservationEntry.find(params[:id])
     end
+
 
 end
