@@ -15,9 +15,11 @@
   </head>
   <body>
     <div class="nav">
+    <% if logged_in? %>
     <a href="/logout"> Logout </a>
     <a href="/reservation_entries"> All Reservation Entry</a>
     <a href="/reservation_entries/new"> Create New Reservation </a>
+    <% end %>
     </div>
     
 
