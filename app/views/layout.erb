@@ -16,14 +16,23 @@
   <body>
     <div class="nav">
     <% if logged_in? %>
-    <a href="/logout"> Logout </a>
-    <a href="/reservation_entries"> All Reservation Entry</a>
-    <a href="/reservation_entries/new"> Create New Reservation </a>
+    <button><a href="/logout"> Logout </a><button>
+    <button><a href="/reservation_entries"> All Reservation Entry</a><button>
+    <button><a href="/reservation_entries/new"> Create New Reservation </a><button>
     <% end %>
-    </div>
+    </div> 
+
+   
     
 
     <div class="wrapper">
+
+      <% if flash[:message] %>
+          <h3><%= flash[:message] %></h3>
+          <% end %>
+          <% if flash[:errors] %>
+          <h3 style="color: red;"><%= flash[:errors] %></h3>
+      <% end %>
 
         <%= yield %>
 
