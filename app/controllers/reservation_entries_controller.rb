@@ -17,10 +17,11 @@ class ReservationEntriesController < ApplicationController
         end
         
         if params[:restaurant_name] != ""
+
             @reservation_entry = ReservationEntry.create(
                 restaurant_name: params[:restaurant_name], 
                 user_id: current_user.id)
-
+            flash[:message] = "Successfully Resreve Tabel." if @reservation_entry.id
             redirect "/reservation_entries/#{@reservation_entry.id}"
         else
             redirect '/reservation_entries/new'
