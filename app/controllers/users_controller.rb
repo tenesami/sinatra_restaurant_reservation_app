@@ -1,25 +1,29 @@
 class UsersController < ApplicationController
     
     #render the login page (form)
-    get '/login' do
-        
-        erb :login
-        
+    get '/login' do 
+        redirect_if_logged_in  
+        erb :login   
     end
 
     #receive the login form, find the user, and log 
-    #the user in (create a session)
+    #the user in (new a session)
     post '/login' do
         @user = User.find_by(email: params[:email])
 
         #Authenticate the user 
         if @user && @user.authenticate(params[:password])
-            #create a sessions 
-           session[:user_id] = @user.id #actually log user in
-           #puts sessions
+            #create a sessions and login user 
+           session[:user_id] = @user.id 
+           
+           #shows the user page 
+           flash[:message] = "Welcome to our app, #{@user.user_name}!"
            redirect "users/#{@user.id}"
         else
-            redirect '/signup'
+            flash[:errors] = "Email or Password wrong please try again or signup"
+            #redirect to the sign up pages to sign up 
+            redirect '/login'
+
         end
 
     end  
@@ -32,15 +36,20 @@ class UsersController < ApplicationController
     end
 
     post '/users' do
-        if params[:user_name] != "" && params[:email] != "" && params[:password] != ""
-           
-            @user = User.create(params)
+        # only persist a user that has a name, email, AND password
+        # ActiveRecord Validations within my user model class
+        @user = User.new(params)
+        if @user.save
             
-            session[:user_id] = @user_id #login the user
+            #login the user
+            session[:user_id] = @user_id 
             
+            flash[:message] = "you seccessfuly created an account, #{@user.user_name} !"
             redirect "/users/#{@user.id}"
         else
-            #it would be better telling user what is wrong 
+             
+            #it telling user what is wrong 
+            flash[:errors] = "Account creation failure: #{@user.errors.full_messages.to_sentence}"
             redirect '/signup'
         end 
 
@@ -50,7 +59,9 @@ class UsersController < ApplicationController
        #"this will be the user show route "
        
        @user = User.find_by(id: params[:id]) 
-       #binding.pry
+       
+       redirect_if_not_logged_in
+
        erb :'/users/show'
     end
     
