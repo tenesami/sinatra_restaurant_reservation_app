@@ -11,10 +11,8 @@ class ReservationEntriesController < ApplicationController
     end
    
     post '/reservation_entries' do
-        #redirect_if_not_logged_in
-        if !logged_in?
-            redirect '/'
-        end
+        #redirectto the home page _if_not_logged_in
+        redirect_if_logged_in
         
         if params[:restaurant_name] != ""
 
@@ -36,32 +34,29 @@ class ReservationEntriesController < ApplicationController
 
     get '/reservation_entries/:id/edit' do
         set_reservation_entry
-        if logged_in?
-            if authorized_to_edit?(@reservation_entry)
-                erb :'/reservation_entries/edit'
-            else
-                redirect "/users/#{current_user.id}"
-            end
+        redirect_if_not_logged_in
+    
+        if authorized_to_edit?(@reservation_entry)
+            erb :'/reservation_entries/edit'
         else
-            redirect '/'
+            redirect "/users/#{current_user.id}"
         end
     end
 
     
     patch '/reservation_entries/:id' do
         set_reservation_entry
-        if logged_in?
-            if authorized_to_edit?(@reservation_entry) && params[:restaurant_name] != ""  
-            
-            @reservation_entry.update(restaurant_name: params[:restaurant_name])
-            
-            redirect "/reservation_entries/#{@reservation_entry.id}"
-            else
-                redirect "/users/#{current_user.id}"
-            end
+        redirect_if_logged_in
+    
+        if authorized_to_edit?(@reservation_entry) && params[:restaurant_name] != ""  
+        
+        @reservation_entry.update(restaurant_name: params[:restaurant_name])
+        
+        redirect "/reservation_entries/#{@reservation_entry.id}"
         else
-            redirect '/'
+            redirect "/users/#{current_user.id}"
         end
+    
     end
 
     delete '/reservation_entries/:id' do
