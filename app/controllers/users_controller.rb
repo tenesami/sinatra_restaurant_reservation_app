@@ -42,8 +42,7 @@ class UsersController < ApplicationController
         else
             #it would be better telling user what is wrong 
             redirect '/signup'
-        end
-        #{"user_name"=>"nes", "email"=>"nes@", "password"=>"tes"}  
+        end 
 
     end
 
