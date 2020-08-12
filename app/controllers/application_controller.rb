@@ -33,12 +33,19 @@ class ApplicationController < Sinatra::Base
       reservation_entry.user == current_user
     end
     # use this helper method to avoid showing welcome, login, or signup page to a user that's already logged in
-    def redirect_if_logged_in
-      if logged_in?
-        redirect "/users/#{current_user.id}"
+       # use this helper method to protect controller actions where user must be logged in to proceed
+       def redirect_if_not_logged_in
+        if !logged_in?
+          flash[:errors] = "You must be logged in to view the page "
+          redirect '/'
+        end
       end
-    end
-
-  end
   
+      # use this helper method to avoid showing welcome, login, or signup page to a user that's already logged in
+      def redirect_if_logged_in
+        if logged_in?
+          redirect "/users/#{current_user.id}"
+        end
+      end
+  end 
 end
