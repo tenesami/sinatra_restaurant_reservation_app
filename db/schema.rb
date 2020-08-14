@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200806215636) do
+ActiveRecord::Schema.define(version: 20200813023440) do
 
   create_table "reservation_entries", force: :cascade do |t|
     t.string   "restaurant_name"
+    t.string   "numOfTable"
     t.integer  "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
