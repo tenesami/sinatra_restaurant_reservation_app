@@ -14,7 +14,8 @@ class UsersController < ApplicationController
 
         #Authenticate the user 
         if @user && @user.authenticate(params[:password])
-            #create a sessions and login user 
+
+        #create a sessions for a login user and check wether user is login or not
            session[:user_id] = @user.id 
            
            #shows the user page 

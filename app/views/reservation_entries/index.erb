@@ -1,12 +1,11 @@
 <h2>Restaurant reserved tables </h2>
 
 <%@reservation_entries.each do |reservation_entry| %>
-<h4><a href="/reservation_entries/<%= reservation_entry.id %>"><%= reservation_entry.created_at %></a></h4>
-
-<h4><%= reservation_entry.restaurant_name %></h4>
-<p>Time Reserved:  <%= reservation_entry.created_at %></p>
-<p>By <%= reservation_entry.user.user_name %></p>
+<h4>Reserved By: <a href="/reservation_entries/<%= reservation_entry.id %>"><%= reservation_entry.user.user_name%></a></h4>
+<h4>Restaurant Name: <%= reservation_entry.restaurant_name %></h4>
+<h4>Number of table Reserved: <%= reservation_entry.numOfTable %></h4>
+<p>Reserved Time:  <%= reservation_entry.formatted_created_at %></p>
+<p>Reserved By <%= reservation_entry.user.user_name %></p>
 <br/>
 <% end %>
 
-<a href="/">Back</a>

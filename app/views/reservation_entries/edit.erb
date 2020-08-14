@@ -1,12 +1,16 @@
-EDIT FORM FOR A RESTAURANT ENTRY
+<h4>EDIT FORM FOR A RESTAURANT ENTRY</h4>
 
 <form class="" action="/reservation_entries/<%= @reservation_entry.id %>" method="post">
 <input type="hidden" name="_method" value="patch">
-  <label for="restaurant_name">Restaurant Name:</label>
+
+  <label for="numOfTable">Num of Reserved Table:  </label>
+<input type="text" name="numOfTable" value="<%= @reservation_entry.numOfTable %>"> </br> </br>
+
+<label for="restaurant_name">Restaurant Name:  </label>
   <textarea name="restaurant_name" style="width:auto; height:auto;"> 
   <%= @reservation_entry.restaurant_name %></textarea>
 
   <input type="submit" name="" value="Edit Entry">
-</form>
+</form> </br>
 
-<a href="/">Back</a>
+<a href="/reservation_entries">Back</a>

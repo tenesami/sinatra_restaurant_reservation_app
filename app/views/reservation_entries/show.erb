@@ -1,8 +1,10 @@
-<h2> Show Custumers reservation Page </h2>
 
-<h3><%= @reservation_entry.restaurant_name %></h3>
+<h1>Reserved by: <%= @reservation_entry.user.user_name %></h1>
+<h2> Reserved at <%= @reservation_entry.formatted_created_at %>
+<h3>Restaurant Name: <%= @reservation_entry.restaurant_name %></h3>
+<h4>Number of Reserved Table: <%= @reservation_entry.numOfTable %></h4>
 
-<% #I am the person who owns this entry, show edit and delete link  %>
+<% #the person who owns this entry, show edit and delete link  %>
 <% if authorized_to_edit?(@reservation_entry)%>
 <a href="/reservation_entries/<%= @reservation_entry.id %>/edit"> Edit Entry  </a>
 <br/></br>
@@ -12,4 +14,4 @@
 </form>
 <% end %>
 
- <a href="/">Back</a>
+<a href="/reservation_entries">Back</a> 

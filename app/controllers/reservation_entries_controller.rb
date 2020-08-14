@@ -2,7 +2,10 @@ class ReservationEntriesController < ApplicationController
     
 #show  out all the reservation entries
     get '/reservation_entries' do
-        @reservation_entries = ReservationEntry.all
+        #@reservation_entries = ReservationEntry.all
+        @reservation_entries = current_user.reservation_entries
+        #@reservation_entries = ReservationEntry.where(:user => current_user)
+        
         erb :'/reservation_entries/index'
       end
 
@@ -18,7 +21,17 @@ class ReservationEntriesController < ApplicationController
         #redirect to the home page _if_not_logged_in
         redirect_if_not_logged_in
         
-        if params[:restaurant_name] != ""
+        # @reservation_entry = reservation_entry.new
+        # @reservation_entry.restaurant_name = params[:restaurant_name]
+        # @reservation_entry.user_id = current_user.id
+
+        #if @reservation_entry.save
+        #    redirect '/reservation_entries'
+        #else
+        #    erb :'/reservation_entries/new'
+        
+
+        if params[:restaurant_name] != "" && params[:numOfTable] != ""
             # create a new entry
             @reservation_entry = ReservationEntry.create(
                 restaurant_name: params[:restaurant_name], 
@@ -29,7 +42,7 @@ class ReservationEntriesController < ApplicationController
             flash[:message] = "You Successfully Reserev restaurant tabel." if @reservation_entry.id
             redirect "/reservation_entries/#{@reservation_entry.id}"
         else
-            flash[:errors] = "you must provide number of table for your entry."
+            flash[:errors] = "you must provide valid for your entry."
             redirect '/reservation_entries/new'
         end
     end
@@ -59,7 +72,7 @@ class ReservationEntriesController < ApplicationController
 
         set_reservation_entry
         
-        if @reservation_entry.user == current_user && params[:restaurant_name] != ""  
+        if @reservation_entry.user == current_user && params[:restaurant_name] != "" 
         
         @reservation_entry.update(restaurant_name: params[:restaurant_name])
         
