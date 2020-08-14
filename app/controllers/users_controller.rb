@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     #receive the login form, find the user, and log 
     #the user in (new a session)
     post '/login' do
+        #find the user
         @user = User.find_by(email: params[:email])
 
         #Authenticate the user 
@@ -30,11 +31,11 @@ class UsersController < ApplicationController
 
     #render the sign up form 
     get '/signup' do
-        #erb (render) a view
+        redirect_if_logged_in
         erb :signup
-
     end
 
+    # create a new user and persist the new user to the DB
     post '/users' do
         # only persist a user that has a name, email, AND password
         # ActiveRecord Validations within my user model class
@@ -42,26 +43,23 @@ class UsersController < ApplicationController
         if @user.save
             
             #login the user
-            session[:user_id] = @user_id 
+            session[:user_id] = @user.id 
             
             flash[:message] = "you seccessfuly created an account, #{@user.user_name} !"
             redirect "/users/#{@user.id}"
         else
              
-            #it telling user what is wrong 
+            #it tell user what is wrong 
             flash[:errors] = "Account creation failure: #{@user.errors.full_messages.to_sentence}"
             redirect '/signup'
         end 
 
     end
 
+    #render the user show route 
     get '/users/:id' do 
-       #"this will be the user show route "
-       
        @user = User.find_by(id: params[:id]) 
-       
        redirect_if_not_logged_in
-
        erb :'/users/show'
     end
     
