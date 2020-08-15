@@ -2,8 +2,8 @@ class ReservationEntriesController < ApplicationController
     
 #show  out all the reservation entries
     get '/reservation_entries' do
-        #@reservation_entries = ReservationEntry.all
-        @reservation_entries = current_user.reservation_entries
+        @reservation_entries = ReservationEntry.all
+        #@reservation_entries = current_user.reservation_entries
         #@reservation_entries = ReservationEntry.where(:user => current_user)
         
         erb :'/reservation_entries/index'
