@@ -14,16 +14,15 @@
     <link rel="stylesheet" href="/stylesheets/main.css" />
   </head>
   <body>
+  
+
     <div class="nav">
     <% if logged_in? %>
-    <button><a href="/logout"> Logout </a><button>
-    <button><a href="/reservation_entries"> All Reservation Entry</a><button>
-    <button><a href="/reservation_entries/new"> Create New Reservation </a><button>
+      <a href="/reservation_entries"> All Reservation Entry</a> |
+      <a href="/reservation_entries/new"> Create New Reservation </a> |
+      <a href="/logout"> Logout </a> 
     <% end %>
     </div> 
-
-   
-    
 
     <div class="wrapper">
 
@@ -33,6 +32,31 @@
           <% if flash[:errors] %>
           <h3 style="color: red;"><%= flash[:errors] %></h3>
       <% end %>
+
+    
+  <!--
+     <div class="wrapper">
+      <div class="container">
+       <% if flash[:message] %>
+          <h3><%= flash[:message] %></h3>
+          <% end %>
+          <% if flash[:errors] %>
+          <h3 style="color: red;"><%= flash[:errors] %></h3>
+      <% end %>
+
+        <nav>
+          <% if logged_in? %>
+          Logged in as: <%= current_user.email %> | 
+          <a href="/reservation_entries"> Reservations </a> |
+          <a href="/playlists/new">New Reservation</a> |
+          <a href="/logout">Logout</a>
+          <% else %>
+           <a href="/login">Login</a> |
+          <a href="/signup">Sign Up</a> 
+          
+          <% end %>
+        </nav>
+                -->
 
         <%= yield %>
 
