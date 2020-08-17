@@ -5,13 +5,13 @@
 <h4>Number of Reserved Table: <%= @reservation_entry.numOfTable %></h4>
 
 <% #the person who owns this entry, show edit and delete link  %>
-<% if authorized_to_edit?(@reservation_entry)%>
+<% if authorized_to_edit?(@reservation_entry)%></br>
 <a href="/reservation_entries/<%= @reservation_entry.id %>/edit"> Edit Entry  </a>
-<br/></br>
+</br>
 <form class="" action="/reservation_entries/<%= @reservation_entry.id %>" method="post"> 
-<input type="hidden" name="_method" value="DELETE">
+<input type="hidden" name="_method" value="DELETE"></br>
 <input type="submit" name="" value="Delete this Entery">
 </form>
-<% end %>
+<% end %></br>
 
 <a href="/reservation_entries">Back</a> 
