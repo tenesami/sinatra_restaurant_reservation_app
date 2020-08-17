@@ -42,7 +42,7 @@ class ReservationEntriesController < ApplicationController
             flash[:message] = "You Successfully Reserev restaurant tabel." if @reservation_entry.id
             redirect "/reservation_entries/#{@reservation_entry.id}"
         else
-            flash[:errors] = "you must provide valid for your entry."
+            flash[:errors] = "you must provide valid entry for your reservation" 
             redirect '/reservation_entries/new'
         end
     end
@@ -58,25 +58,28 @@ class ReservationEntriesController < ApplicationController
     get '/reservation_entries/:id/edit' do
 
         redirect_if_not_logged_in
+
         set_reservation_entry
         if authorized_to_edit?(@reservation_entry)
             erb :'/reservation_entries/edit'
         else
+            
             redirect "/users/#{current_user.id}"
         end
     end
 
     #find the reservation entry, update the reservation entry, redirect to show page
     patch '/reservation_entries/:id' do
-        redirect_if_logged_in
+        redirect_if_not_logged_in
 
         set_reservation_entry
         
-        if @reservation_entry.user == current_user && params[:restaurant_name] != "" 
+        if @reservation_entry.user == current_user && params[:restaurant_name] != ""  
         
         @reservation_entry.update(restaurant_name: params[:restaurant_name])
-        
-        redirect "/reservation_entries/#{@reservation_entry.id}"
+        @reservation_entry.update(numOfTable: params[:numOfTable])
+    
+        redirect "/reservation_entries"
         else
             redirect "/users/#{current_user.id}"
         end
@@ -100,6 +103,4 @@ class ReservationEntriesController < ApplicationController
     def set_reservation_entry
         @reservation_entry = ReservationEntry.find(params[:id])
     end
-
-
 end
